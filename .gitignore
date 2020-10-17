@@ -1,0 +1,17 @@
+.vscode
+bin
+obj
+*.db
+.vs/ProjectSettings.json
+.vs/slnx.sqlite
+.vs/VSWorkspaceState.json
+.vs/OrisonFinance/DesignTimeBuild/.dtbcache
+.vs/OrisonFinance/DesignTimeBuild/.dtbcache.v2
+.vs/OrisonFinance/config/applicationhost.config
+.vs/OrisonFinance/config/debuggerConfiguration-9f4d6a82-f82a-4fca-b920-848165f81ff4.json
+.vs/OrisonFinance/config/debuggerConfiguration-a8a77f5e-9e3f-4d59-bdae-4b7c10b978b1.json
+.vs/OrisonFinance/v16/.suo
+.vs/OrisonFinance/v16/Server/sqlite3/db.lock
+.vs/OrisonFinance/v16/Server/sqlite3/storage.ide
+.vs/OrisonFinance/v16/Server/sqlite3/storage.ide-shm
+.vs/OrisonFinance/v16/Server/sqlite3/storage.ide-wal
