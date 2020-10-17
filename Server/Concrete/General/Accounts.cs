@@ -33,6 +33,36 @@ namespace OrisonFinance.Server.Concrete.Inventory
             return await Accounts;
         }
 
+        public Task<IEnumerable<LoginModel>> LoginUserNew1(string Username, string Password)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<LoginModel>> LoginUserNew2(string Username, string Password)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<LoginModel>> LoginUserNew3(string Username, string Password)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<LoginModel>> LoginUserNew4(string Username, string Password)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<LoginModel>> LoginUserNew5(string Username, string Password)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<LoginModel>> Roshanshan(string Username, string Password)
+        {
+            throw new NotImplementedException();
+        }
+
         void IDisposable.Dispose()
         {
             throw new NotImplementedException();
