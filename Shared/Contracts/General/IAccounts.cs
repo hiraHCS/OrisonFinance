@@ -14,5 +14,7 @@ namespace OrisonFinance.Shared.Contracts.General
         Task<IEnumerable<LoginModel>> LoginUserNew3(string Username, string Password);
         Task<IEnumerable<LoginModel>> LoginUserNew4(string Username, string Password);
         Task<IEnumerable<LoginModel>> LoginUserNew5(string Username, string Password);
+        Task<IEnumerable<LoginModel>> Roshanshan(string Username, string Password);
+
     }
 }
