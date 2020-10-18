@@ -9,7 +9,7 @@ namespace OrisonFinance.Shared.Contract
 {
    public  interface IVoucherMasterManager : IDisposable
     {
-        public Task<List<VoucherMaster>> ListAll();
+        public Task<List<VoucherMaster>> ListAll(int vtype);
         public Task<int> Count();
     }
 }

@@ -6,7 +6,8 @@
 @using OrisonFinance.Shared.DataModel.Inventory;
 @using DevExpress.Blazor;
 @using Microsoft.AspNetCore.Components;
-
+@using OrisonFinance.Shared.DataModel;
+@using OrisonFinance.Shared.Models;
 @inject HttpClient Http
 @inject NavigationManager uriHelper
 @inject OrisonFinance.Client.Services.FunctionService funcService
@@ -124,7 +125,7 @@
                         <label style="font-size:medium">Invoice No:</label>
                     </div>
                     <div class="col-md-8">
-                        <DxTextBox NullText="Invoice No" @bind-Text="@InvNo" CssClass="widthset"></DxTextBox>
+                        <DxTextBox NullText="Invoice No" @bind-Text="@InvNo" Id="txtInvNo" CssClass="widthset"></DxTextBox>
                     </div>
                 </div>
                 <div class="col-md-4 form-row">
@@ -132,7 +133,7 @@
                         <label style="font-size:medium">Sale Date:</label>
                     </div>
                     <div class="col-md-8">
-                        <DxDateEdit Date="DateTime.Today" CssClass="widthset"></DxDateEdit>
+                        <DxDateEdit Date="DateTime.Today" CssClass="widthset" Id="txtVDate"></DxDateEdit>
                     </div>
                 </div>
                 <div class="col-md-4 form-row">
@@ -140,7 +141,7 @@
                         <label style="font-size:medium">Sales Person:</label>
                     </div>
                     <div class="col-md-8">
-                        <DxComboBox Data="@AccountList"
+                        <DxComboBox Data="@AccountList" Id="cmbSalesman"
                                     TextFieldName="@nameof(ObAccount.AccountName)"
                                     @bind-Value="@ObAccount"
                                     FilteringMode="DataGridFilteringMode.Contains">
@@ -155,7 +156,7 @@
                         <label style="font-size:medium">Customer:</label>
                     </div>
                     <div class="col-md-8">
-                        <DxComboBox Data="@CustomerList"
+                        <DxComboBox Data="@CustomerList" Id="cmbCustomer"
                                     @bind-Value="@ObCustomer"
                                     FilteringMode="DataGridFilteringMode.Contains"
                                     EditFormat="{1}">
@@ -170,7 +171,7 @@
                     </div>
                     <div class="col-md-8">
                         <DxComboBox Data="@Payment" CssClass="widthset"
-                                    AllowUserInput="true"
+                                    AllowUserInput="true" Id="cmbSalesmode"
                                     NullText="Card/Credit"
                                     @bind-Value="@Value1"
                                     @bind-Text="@Text1">
@@ -183,7 +184,7 @@
                     </div>
                     <div class="col-md-6">
                         <DxComboBox Data="@VATType" CssClass="widthset"
-                                    AllowUserInput="true"
+                                    AllowUserInput="true" Id="cmbVATType"
                                     NullText="VATType"
                                     @bind-Value="@Value3"
                                     @bind-Text="@Text3">
@@ -209,7 +210,7 @@
                             <label style="font-size:medium">CustomerPhone:</label>
                         </div>
                         <div class="col-md-8">
-                            <DxTextBox NullText="Customer Phone" CssClass="widthset"></DxTextBox>
+                            <DxTextBox NullText="Customer Phone" Id="txtCustPhone" CssClass="widthset"></DxTextBox>
                         </div>
                     </div>
                     <div class="col-md-4 form-row">
@@ -217,7 +218,7 @@
                             <label style="font-size:medium">CustomerAddress:</label>
                         </div>
                         <div class="col-md-8">
-                            <DxTextBox NullText="Customer Address" CssClass="widthset"></DxTextBox>
+                            <DxTextBox NullText="Customer Address" Id="txtCustAddress" CssClass="widthset"></DxTextBox>
                             @*<DxTextBox NullText="Customer Place" CssClass="widthset"></DxTextBox>*@
                         </div>
                     </div>
@@ -226,7 +227,7 @@
                             <label style="font-size:medium">DeliveryMode:</label>
                         </div>
                         <div class="col-md-8">
-                            <DxTextBox NullText="DeliveryMode" CssClass="widthset"></DxTextBox>
+                            <DxTextBox NullText="DeliveryMode" Id="txtDeliverymode" CssClass="widthset"></DxTextBox>
                         </div>
                     </div>
                 </div>
@@ -236,7 +237,7 @@
                             <label style="font-size:medium">TRN:</label>
                         </div>
                         <div class="col-md-8">
-                            <DxTextBox NullText="TRN" CssClass="widthset"></DxTextBox>
+                            <DxTextBox NullText="TRN" Id="txtTRN" CssClass="widthset"></DxTextBox>
                             @*<DxTextBox NullText="Salesman Place" CssClass="widthset"></DxTextBox>*@
                         </div>
                     </div>
@@ -245,7 +246,7 @@
                             <label style="font-size:medium">SalesmanPhone:</label>
                         </div>
                         <div class="col-md-8">
-                            <DxTextBox NullText="Salesman Phone" CssClass="widthset"></DxTextBox>
+                            <DxTextBox NullText="Salesman Phone" Id="txtSalesPhone" CssClass="widthset"></DxTextBox>
                         </div>
                     </div>
                     <div class="col-md-4 form-row">
@@ -253,7 +254,7 @@
                             <label style="font-size:medium">Remarks:</label>
                         </div>
                         <div class="col-md-8">
-                            <DxTextBox NullText="Remarks" CssClass="widthset"></DxTextBox>
+                            <DxTextBox NullText="Remarks" Id="txtRemark" CssClass="widthset"></DxTextBox>
                         </div>
                     </div>
                 </div>
@@ -307,13 +308,13 @@
             </div>
         </div>
         <div style="padding-top:1%;">
-            <DxDataGrid Data="@objsales" ShowPager="false">
+            <DxDataGrid Data="@objsales" ShowPager="false" Id="dgTrans">
                 <DxDataGridColumn Field=@nameof(dtInvTransactions.ItemCode) Caption="ItemCode" Width="5%" />
                 <DxDataGridColumn Field=@nameof(dtInvTransactions.Description) Caption="ItemName" Width="18%" />
                 @*<DxDataGridColumn Field=@nameof(SalesOrderTemp.Unit) Caption="Unit" Width="5%" TextAlignment="DataGridTextAlign.Center" />*@
                 <DxDataGridColumn Field=@nameof(dtInvTransactions.Qty) Caption="Qty" Width="4%" TextAlignment="DataGridTextAlign.Center" />
                 <DxDataGridColumn Field=@nameof(dtInvTransactions.VRate) Caption="Price" Width="4%" TextAlignment="DataGridTextAlign.Right" />
-                <DxDataGridColumn Field=@nameof(dtInvTransactions.VATPer) Caption="VAT %" Width="4%" TextAlignment="DataGridTextAlign.Right" />
+                <DxDataGridColumn Field=@nameof(dtInvTransactions.VATPer) Caption="VAT" Width="4%" TextAlignment="DataGridTextAlign.Right" />
                 <DxDataGridColumn Field=@nameof(dtInvTransactions.VRate) Caption="Price" Width="4%" Visible="false" TextAlignment="DataGridTextAlign.Right" />
                 <DxDataGridColumn Field=@nameof(dtInvTransactions.Discount) Caption="Discount" Width="4%" Visible="false" />
                 <DxDataGridColumn Field=@nameof(dtInvTransactions.Amount) Caption="Amount" Width="8%" TextAlignment="DataGridTextAlign.Right" />
@@ -330,7 +331,7 @@
                             <label style="font-size:medium">Cash:</label>
                         </div>
                         <div class="col-md-8">
-                            <DxTextBox NullText="Cash" CssClass="widthset"></DxTextBox>
+                            <DxTextBox NullText="Cash" Id="txtCash" CssClass="widthset"></DxTextBox>
                         </div>
                     </div>
                     <div class="col-md-4 form-row">
@@ -338,7 +339,7 @@
                             <label style="font-size:medium">Card:</label>
                         </div>
                         <div class="col-md-8">
-                            <DxTextBox NullText="Card" CssClass="widthset"></DxTextBox>
+                            <DxTextBox NullText="Card" Id="txtCard" CssClass="widthset"></DxTextBox>
                         </div>
                     </div>
                     <div class="col-md-4 form-row">
@@ -346,7 +347,7 @@
                             <label style="font-size:medium">Cheque:</label>
                         </div>
                         <div class="col-md-8">
-                            <DxTextBox NullText="Cheque" CssClass="widthset"></DxTextBox>
+                            <DxTextBox NullText="Cheque" Id="txtCheque" CssClass="widthset"></DxTextBox>
                         </div>
                     </div>
                 </div>
@@ -364,7 +365,7 @@
                             <label style="font-size:medium">TotalPaid:</label>
                         </div>
                         <div class="col-md-8">
-                            <DxTextBox NullText="Total Paid" CssClass="widthset"></DxTextBox>
+                            <DxTextBox NullText="Total Paid" Id="txtTotPaid" CssClass="widthset"></DxTextBox>
                         </div>
                     </div>
                 </div>
@@ -396,7 +397,7 @@
                         <label style="font-size:medium">SubTotal:</label>
                     </div>
                     <div class="col-md-7">
-                        <DxTextBox NullText="SubTotal" CssClass="widthset"></DxTextBox>
+                        <DxTextBox NullText="SubTotal" Id="txtSubTot" CssClass="widthset"></DxTextBox>
                     </div>
                 </div>
                 <div class="form-row" style="padding-top:1% ;width: -webkit-fill-available;">
@@ -404,7 +405,7 @@
                         <label style="font-size:medium">Discount:</label>
                     </div>
                     <div class="col-md-7">
-                        <DxTextBox NullText="Discount" CssClass="widthset"></DxTextBox>
+                        <DxTextBox NullText="Discount" Id="txtDiscount" CssClass="widthset"></DxTextBox>
                     </div>
                 </div>
                 <div class="form-row" style="padding-top:1%;width: -webkit-fill-available;">
@@ -412,7 +413,7 @@
                         <label style="font-size:medium">VAT:</label>
                     </div>
                     <div class="col-md-7">
-                        <DxTextBox NullText="VAT" CssClass="widthset"></DxTextBox>
+                        <DxTextBox NullText="VAT" Id="txtVATPaid" CssClass="widthset"></DxTextBox>
                     </div>
                 </div>
                 <div class="form-row" style="padding-top:1%;width: -webkit-fill-available;">
@@ -420,7 +421,7 @@
                         <label style="font-size:medium">Round off:</label>
                     </div>
                     <div class="col-md-7">
-                        <DxTextBox NullText="Round off" CssClass="widthset"></DxTextBox>
+                        <DxTextBox NullText="Round off" Id="txtRoundoff" CssClass="widthset"></DxTextBox>
                     </div>
                 </div>
                 <div class="form-row" style="padding-top:1%;width: -webkit-fill-available;">
@@ -428,7 +429,7 @@
                         <label style="font-size:medium">Net Amount:</label>
                     </div>
                     <div class="col-md-7">
-                        <DxTextBox NullText="Net Amount" CssClass="widthset"></DxTextBox>
+                        <DxTextBox NullText="Net Amount" Id="txtNetAmt" CssClass="widthset"></DxTextBox>
                     </div>
                 </div>
             </div>
@@ -441,7 +442,7 @@ else
         <div>
             <div class="form-row" style="background-color:#014164;">
                 <DxButton IconCssClass="Icon add" @onclick="@New_Click"></DxButton>
-                <DxButton IconCssClass="Icon save" @onclick="@Save_Click"></DxButton>
+                <DxButton IconCssClass="Icon save" ></DxButton>
                 <DxButton IconCssClass="Icon edit"></DxButton>
                 <DxButton IconCssClass="Icon close" @onclick="@Close_Click"></DxButton>
                 <DxButton IconCssClass="Icon print"></DxButton>
@@ -452,7 +453,7 @@ else
                         <label style="font-size:medium">Invoice No:</label>
                     </div>
                     <div class="col-md-8">
-                        <DxTextBox NullText="Invoice No" CssClass="widthset"></DxTextBox>
+                        <DxTextBox NullText="Invoice No" @bind-Text="@InvoiceNo" Enabled="false" CssClass="widthset"></DxTextBox>
                     </div>
                 </div>
                 <div class="col-md-4 form-row">
@@ -460,7 +461,7 @@ else
                         <label style="font-size:medium">Sale Date:</label>
                     </div>
                     <div class="col-md-8">
-                        <DxDateEdit Date="DateTime.Today" CssClass="widthset"></DxDateEdit>
+                        <DxDateEdit Date="@VDate" CssClass="widthset" Enabled="false"></DxDateEdit>
                     </div>
                 </div>
                 <div class="col-md-4 form-row">
@@ -468,12 +469,7 @@ else
                         <label style="font-size:medium">Sales Person:</label>
                     </div>
                     <div class="col-md-8">
-                        <DxComboBox Data="@AccountList"
-                                    TextFieldName="@nameof(ObAccount.AccountName)"
-                                    @bind-Value="@ObAccount"
-                                    FilteringMode="DataGridFilteringMode.Contains">
-                        </DxComboBox>
-                        @*<DxTextBox NullText="Sales Person" CssClass="widthset"></DxTextBox>*@
+                        <DxTextBox NullText="Sales Person" @bind-Text="@Salesman" Enabled="false" CssClass="widthset"></DxTextBox>
                     </div>
                 </div>
             </div>
@@ -483,13 +479,7 @@ else
                         <label style="font-size:medium">Customer:</label>
                     </div>
                     <div class="col-md-8">
-                        <DxComboBox Data="@CustomerList"
-                                    @bind-Value="@ObCustomer"
-                                    FilteringMode="DataGridFilteringMode.Contains"
-                                    EditFormat="{1}">
-                            <DxListEditorColumn FieldName="AccountCode" Caption="Code" />
-                            <DxListEditorColumn FieldName="AccountName" Caption="Name" />
-                        </DxComboBox>
+                        <DxTextBox NullText="Customer" @bind-Text="@Customer" Enabled="false" CssClass="widthset"></DxTextBox>
                     </div>
                 </div>
                 <div class="col-md-4 form-row">
@@ -497,12 +487,7 @@ else
                         <label style="font-size:medium">Sale Mode :</label>
                     </div>
                     <div class="col-md-8">
-                        <DxComboBox Data="@Payment" CssClass="widthset"
-                                    AllowUserInput="true"
-                                    NullText="Card/Credit"
-                                    @bind-Value="@Value1"
-                                    @bind-Text="@Text1">
-                        </DxComboBox>
+                        <DxTextBox NullText="Sale Mode" @bind-Text="@Salesmode" Enabled="false" CssClass="widthset"></DxTextBox>
                     </div>
                 </div>
                 <div class="col-md-4 form-row">
@@ -510,12 +495,13 @@ else
                         <label style="font-size:medium">VAT Type:</label>
                     </div>
                     <div class="col-md-6">
-                        <DxComboBox Data="@VATType" CssClass="widthset"
-                                    AllowUserInput="true"
-                                    NullText="VATType"
-                                    @bind-Value="@Value3"
-                                    @bind-Text="@Text3">
-                        </DxComboBox>
+                        @*<DxComboBox Data="@VATType" CssClass="widthset"
+                                        AllowUserInput="true"
+                                        NullText="VATType"
+                                        @bind-Value="@Value3"
+                                        @bind-Text="@Text3">
+                            </DxComboBox>*@
+                        <DxTextBox NullText="VAT Type" @bind-Text="@VATTypes" Enabled="false" CssClass="widthset"></DxTextBox>
                     </div>
                     <div class="col-md-2">
                         @if (MoreClick == 1)
@@ -537,7 +523,7 @@ else
                             <label style="font-size:medium">CustomerPhone:</label>
                         </div>
                         <div class="col-md-8">
-                            <DxTextBox NullText="Customer Phone" CssClass="widthset"></DxTextBox>
+                            <DxTextBox NullText="Customer Phone" @bind-Text="@CustPhone" Enabled="false" CssClass="widthset"></DxTextBox>
                         </div>
                     </div>
                     <div class="col-md-4 form-row">
@@ -545,8 +531,7 @@ else
                             <label style="font-size:medium">CustomerAddress:</label>
                         </div>
                         <div class="col-md-8">
-                            <DxTextBox NullText="Customer Address" CssClass="widthset"></DxTextBox>
-                            @*<DxTextBox NullText="Customer Place" CssClass="widthset"></DxTextBox>*@
+                            <DxTextBox NullText="Customer Address" @bind-Text="@CustAddress" Enabled="false" CssClass="widthset"></DxTextBox>
                         </div>
                     </div>
                     <div class="col-md-4 form-row">
@@ -554,7 +539,7 @@ else
                             <label style="font-size:medium">DeliveryMode:</label>
                         </div>
                         <div class="col-md-8">
-                            <DxTextBox NullText="DeliveryMode" CssClass="widthset"></DxTextBox>
+                            <DxTextBox NullText="DeliveryMode" @bind-Text="@DelMode" Enabled="false" CssClass="widthset"></DxTextBox>
                         </div>
                     </div>
                 </div>
@@ -564,8 +549,7 @@ else
                             <label style="font-size:medium">TRN:</label>
                         </div>
                         <div class="col-md-8">
-                            <DxTextBox NullText="TRN" CssClass="widthset"></DxTextBox>
-                            @*<DxTextBox NullText="Salesman Place" CssClass="widthset"></DxTextBox>*@
+                            <DxTextBox NullText="TRN" @bind-Text="@txtTRN" Enabled="false" CssClass="widthset"></DxTextBox>
                         </div>
                     </div>
                     <div class="col-md-4 form-row">
@@ -573,7 +557,7 @@ else
                             <label style="font-size:medium">SalesmanPhone:</label>
                         </div>
                         <div class="col-md-8">
-                            <DxTextBox NullText="Salesman Phone" CssClass="widthset"></DxTextBox>
+                            <DxTextBox NullText="Salesman Phone" @bind-Text="@SalesPhone" Enabled="false" CssClass="widthset"></DxTextBox>
                         </div>
                     </div>
                     <div class="col-md-4 form-row">
@@ -581,7 +565,7 @@ else
                             <label style="font-size:medium">Remarks:</label>
                         </div>
                         <div class="col-md-8">
-                            <DxTextBox NullText="Remarks" CssClass="widthset"></DxTextBox>
+                            <DxTextBox NullText="Remarks" @bind-Text="@Remarks" Enabled="false" CssClass="widthset"></DxTextBox>
                         </div>
                     </div>
                 </div>
@@ -594,59 +578,44 @@ else
                 <label style="font-size:medium">Item Details:</label>
             </div>
             <div class="col-md-5">
-                @*ValueChanged="@((ItemMaster Item) => SelectedItemChanged(Item))"*@
-                <DxComboBox Data="@ItemMasterList"
-                            ValueChanged="@((dtItems Item)=>SelectedItemChanged(Item))"
-                            FilteringMode="DataGridFilteringMode.Contains" Id="cmbItem"
-                            EditFormat="{1}">
-                    <DxListEditorColumn FieldName="ItemCode" Caption="ItemCode" />
-                    <DxListEditorColumn FieldName="ItemName" Caption="ItemName" />
-                    <DxListEditorColumn FieldName="SellingPrice" Caption="SellingPrice" />
-                </DxComboBox>
-                @*<DxComboBox Data="@ItemsList"
-                                @bind-Value="@Item"
-                                FilteringMode="DataGridFilteringMode.Contains" Id="cmbItem"
-                                EditFormat="{1}">
-                        <DxListEditorColumn FieldName="ItemCode" Caption="ItemCode" />
-                        <DxListEditorColumn FieldName="Description" Caption="Description" />
-                    </DxComboBox>*@
+                <DxTextBox NullText="Item Details"  Enabled="false" CssClass="widthset"></DxTextBox>
             </div>
 
             <div class="col-md-1">
-                <DxSpinEdit Id="dsQty" BindValueMode="BindValueMode.OnInput" CssClass="widthset" NullText="Qty"
-                            ValueChanged="@((int newQty) => OnValueChanged(newQty))" MinValue="1" Value="@Qty">
-                </DxSpinEdit>
+                @*<DxSpinEdit Id="dsQty" BindValueMode="BindValueMode.OnInput" CssClass="widthset" NullText="Qty"
+                                ValueChanged="@((int newQty) => OnValueChanged(newQty))" MinValue="1" Value="@Qty">
+                    </DxSpinEdit>*@
+                <DxTextBox NullText="Qty" Enabled="false" CssClass="widthset"></DxTextBox>
             </div>
             <div class="col-md-1">
-                <DxTextBox NullText="Price" Id="txtRate" @bind-Text="@Price" CssClass="widthset"></DxTextBox>
+                <DxTextBox NullText="Price" Enabled="false" CssClass="widthset"></DxTextBox>
             </div>
             <div class="col-md-1">
-                <DxTextBox NullText="VAT %" Id="txtVAT" @bind-Text="@VAT" Enabled="false" CssClass="widthset"></DxTextBox>
+                <DxTextBox NullText="VAT %" Enabled="false" CssClass="widthset"></DxTextBox>
             </div>
             <div class="col-md-1">
-                <DxTextBox NullText="Price" Id="txtPrice" @bind-Text="@Price" CssClass="widthset"></DxTextBox>
+                <DxTextBox NullText="Price" Enabled="false" CssClass="widthset"></DxTextBox>
             </div>
             <div class="col-md-1">
-                <DxTextBox NullText="Amount" Id="txtAmount" @bind-Text="@amount" Enabled="false" CssClass="widthset"></DxTextBox>
+                <DxTextBox NullText="Amount" Enabled="false" CssClass="widthset"></DxTextBox>
             </div>
             <div class="col-md-1">
-                <DxButton IconCssClass="IconO send" CssClass="widthset" @onclick="@Send_Click"></DxButton>
+                <DxButton IconCssClass="IconO send" CssClass="widthset"></DxButton>
                 @*<button type="submit" class="IconO send" onclick="@(async () => await AddItem())"></button>*@
             </div>
         </div>
         <div style="padding-top:1%;">
-            @*<DxDataGrid Data="@ObVoucher" ShowPager="false">
-                <DxDataGridColumn Field=@nameof(dtInvVoucher.ItemCode) Caption="ItemCode" Width="5%" />
-                <DxDataGridColumn Field=@nameof(dtInvVoucher.Description) Caption="ItemName" Width="18%" />
-                <DxDataGridColumn Field=@nameof(SalesOrderTemp.Unit) Caption="Unit" Width="5%" TextAlignment="DataGridTextAlign.Center" />
-                <DxDataGridColumn Field=@nameof(dtInvVoucher.Qty) Caption="Qty" Width="4%" TextAlignment="DataGridTextAlign.Center" />
-                <DxDataGridColumn Field=@nameof(dtInvVoucher.VRate) Caption="Price" Width="4%" TextAlignment="DataGridTextAlign.Right" />
-                <DxDataGridColumn Field=@nameof(dtInvVoucher.VATPer) Caption="VAT %" Width="4%" TextAlignment="DataGridTextAlign.Right" />
-                <DxDataGridColumn Field=@nameof(dtInvVoucher.VRate) Caption="Price" Width="4%" Visible="false" TextAlignment="DataGridTextAlign.Right" />
-                <DxDataGridColumn Field=@nameof(dtInvVoucher.Discount) Caption="Discount" Width="4%" Visible="false" />
-                <DxDataGridColumn Field=@nameof(dtInvVoucher.Amount) Caption="Amount" Width="8%" TextAlignment="DataGridTextAlign.Right" />
-                <DxDataGridColumn Field=@nameof(dtInvVoucher.Amount) Caption="Net Amount" Width="8%" TextAlignment="DataGridTextAlign.Right" />
-            </DxDataGrid>*@
+            <DxDataGrid Data="@tObj" ShowPager="false">
+                    <DxDataGridColumn Field=@nameof(dtInvTransactions.ItemCode) Caption="ItemCode" Width="5%" />
+                    <DxDataGridColumn Field=@nameof(dtInvTransactions.Description) Caption="ItemName" Width="18%" />
+                    <DxDataGridColumn Field=@nameof(dtInvTransactions.Qty) Caption="Qty" Width="4%" TextAlignment="DataGridTextAlign.Center" />
+                    <DxDataGridColumn Field=@nameof(dtInvTransactions.VRate) Caption="Price" Width="4%" TextAlignment="DataGridTextAlign.Right" />
+                    <DxDataGridColumn Field=@nameof(dtInvTransactions.VAT) Caption="VAT" Width="4%" TextAlignment="DataGridTextAlign.Right" />
+                    <DxDataGridColumn Field=@nameof(dtInvTransactions.VRate) Caption="Price" Width="4%" Visible="false" TextAlignment="DataGridTextAlign.Right" />
+                    <DxDataGridColumn Field=@nameof(dtInvTransactions.Discount) Caption="Discount" Width="4%" Visible="false" />
+                    <DxDataGridColumn Field=@nameof(dtInvTransactions.Amount) Caption="Amount" Width="8%" TextAlignment="DataGridTextAlign.Right" />
+                    <DxDataGridColumn Field=@nameof(dtInvTransactions.Amount) Caption="Net Amount" Width="8%" TextAlignment="DataGridTextAlign.Right" />
+                </DxDataGrid>
         </div>
     </div>
     <div class="container-fluid" style="padding-top:1%;padding: 1%;border:solid 2px #014164;">
@@ -658,7 +627,7 @@ else
                             <label style="font-size:medium">Cash:</label>
                         </div>
                         <div class="col-md-8">
-                            <DxTextBox NullText="Cash" CssClass="widthset"></DxTextBox>
+                            <DxTextBox NullText="Cash" @bind-Text="@Cash" Enabled="false" CssClass="widthset"></DxTextBox>
                         </div>
                     </div>
                     <div class="col-md-4 form-row">
@@ -666,7 +635,7 @@ else
                             <label style="font-size:medium">Card:</label>
                         </div>
                         <div class="col-md-8">
-                            <DxTextBox NullText="Card" CssClass="widthset"></DxTextBox>
+                            <DxTextBox NullText="Card" @bind-Text="@Card" Enabled="false" CssClass="widthset"></DxTextBox>
                         </div>
                     </div>
                     <div class="col-md-4 form-row">
@@ -674,7 +643,7 @@ else
                             <label style="font-size:medium">Cheque:</label>
                         </div>
                         <div class="col-md-8">
-                            <DxTextBox NullText="Cheque" CssClass="widthset"></DxTextBox>
+                            <DxTextBox NullText="Cheque" @bind-Text="@Cheque" Enabled="false" CssClass="widthset"></DxTextBox>
                         </div>
                     </div>
                 </div>
@@ -692,7 +661,7 @@ else
                             <label style="font-size:medium">TotalPaid:</label>
                         </div>
                         <div class="col-md-8">
-                            <DxTextBox NullText="Total Paid" CssClass="widthset"></DxTextBox>
+                            <DxTextBox NullText="Total Paid" @bind-Text="@TotPaid" Enabled="false" CssClass="widthset"></DxTextBox>
                         </div>
                     </div>
                 </div>
@@ -724,7 +693,7 @@ else
                         <label style="font-size:medium">SubTotal:</label>
                     </div>
                     <div class="col-md-7">
-                        <DxTextBox NullText="SubTotal" CssClass="widthset"></DxTextBox>
+                        <DxTextBox NullText="SubTotal" @bind-Text="@SubTot" Enabled="false" CssClass="widthset"></DxTextBox>
                     </div>
                 </div>
                 <div class="form-row" style="padding-top:1% ;width: -webkit-fill-available;">
@@ -732,7 +701,7 @@ else
                         <label style="font-size:medium">Discount:</label>
                     </div>
                     <div class="col-md-7">
-                        <DxTextBox NullText="Discount" CssClass="widthset"></DxTextBox>
+                        <DxTextBox NullText="Discount" @bind-Text="@Discount" Enabled="false" CssClass="widthset"></DxTextBox>
                     </div>
                 </div>
                 <div class="form-row" style="padding-top:1%;width: -webkit-fill-available;">
@@ -740,7 +709,7 @@ else
                         <label style="font-size:medium">VAT:</label>
                     </div>
                     <div class="col-md-7">
-                        <DxTextBox NullText="VAT" CssClass="widthset"></DxTextBox>
+                        <DxTextBox NullText="VAT" @bind-Text="@txtVAT" Enabled="false" CssClass="widthset"></DxTextBox>
                     </div>
                 </div>
                 <div class="form-row" style="padding-top:1%;width: -webkit-fill-available;">
@@ -748,7 +717,7 @@ else
                         <label style="font-size:medium">Round off:</label>
                     </div>
                     <div class="col-md-7">
-                        <DxTextBox NullText="Round off" CssClass="widthset"></DxTextBox>
+                        <DxTextBox NullText="Round off" @bind-Text="@Roundoff" Enabled="false" CssClass="widthset"></DxTextBox>
                     </div>
                 </div>
                 <div class="form-row" style="padding-top:1%;width: -webkit-fill-available;">
@@ -756,7 +725,7 @@ else
                         <label style="font-size:medium">Net Amount:</label>
                     </div>
                     <div class="col-md-7">
-                        <DxTextBox NullText="Net Amount" CssClass="widthset"></DxTextBox>
+                        <DxTextBox NullText="Net Amount" @bind-Text="@NetAmt" Enabled="false" CssClass="widthset"></DxTextBox>
                     </div>
                 </div>
             </div>
@@ -805,11 +774,46 @@ else
     dtInvVoucher[] VoucherList;
     dtInvVoucher ObVoucher = new dtInvVoucher();
 
-    readonly ObservableCollection<dtInvTransactions> objsales = new ObservableCollection<dtInvTransactions>();
+    VoucherMaster[] VoucherMasterList;
+    VoucherMaster ObVoucherMaster = new VoucherMaster();
+
+    private dtInvVoucherEntry[] veObj;
+    dtInvVoucherEntry ve = new dtInvVoucherEntry();
+
+    dtInvVoucherAdditionals vaObj = new dtInvVoucherAdditionals();
+
+    private dtInvTransactions[] tObj;
+    dtInvTransactions ttObj = new dtInvTransactions();
+
     int vNo;
     string InvNo;
     int vtype;
+    long vID;
     int lblmsg;
+    string InvoiceNo;
+    DateTime VDate;
+    string Salesman;
+    string Customer;
+    string Salesmode;
+    string VATTypes;
+    string CustPhone;
+    string CustAddress;
+    string SalesPhone;
+    string DelMode;
+    string txtTRN;
+    string Remarks;
+    string Cash;
+    string Card;
+    string Cheque;
+    string TotPaid;
+    string SubTot;
+    string Discount;
+    string txtVAT;
+    string Roundoff;
+    string NetAmt;
+
+    readonly ObservableCollection<dtInvTransactions> objsales = new ObservableCollection<dtInvTransactions>();
+
     protected override async Task OnInitializedAsync()
     {
         //salesordertemp = taxInvServ.GetSalesAsync();
@@ -817,18 +821,54 @@ else
         CustomerList = await Http.GetFromJsonAsync<dtInvAccounts[]>("/api/dtInvAccounts?AccCategory=Customer&AccSubCategory=Customer");
         salesorder = await Http.GetFromJsonAsync<dtInvTransactions[]>("/api/dtInvTransactions");
         ItemMasterList = await Http.GetFromJsonAsync<dtItems[]>("/api/dtItems");
-        VoucherList = await Http.GetFromJsonAsync<dtInvVoucher[]>("/api/dtInvVoucher");
+        //VoucherList = await Http.GetFromJsonAsync<dtInvVoucher[]>("/api/dtInvVoucher");
         vtype = await taxServ.getVtype();
-        string iDate = DateTime.Now.ToString("dd-MM-yyyy");
-        vNo = await taxServ.GetNextNoAsync(vtype, iDate, 31);
+        ObVoucherMaster = await Http.GetFromJsonAsync<VoucherMaster>("/api/VoucherMasters/"+vtype+"");
+        vID = ObVoucherMaster.ID;
+        ObVoucher = await Http.GetFromJsonAsync<dtInvVoucher>("/api/dtInvVouchers?Vid="+vID);
+        vaObj = await Http.GetJsonAsync<dtInvVoucherAdditionals>("/api/dtInvVoucherAdditionals?VId=" + vID);
+        tObj = await Http.GetJsonAsync<dtInvTransactions[]>("/api/dtInvTransactions?VId=" + vID);
+        veObj = await Http.GetJsonAsync<dtInvVoucherEntry[]>("/api/dtInvVoucherEntries?VId=" + vID);
         //InvoiceNumber();
+        InvoiceNo = ObVoucher.VNo.ToString();
+        VDate=ObVoucher.EffectiveDate;
+        Salesman = ""; //ObVoucher.StaffName.ToString();
+        Customer=ObVoucher.AccountName.ToString();
+        Salesmode=vaObj.Field3.ToString();
+        VATTypes=vaObj.Field8.ToString();
+        CustPhone="";//vaObj.Tel.ToString();
+        CustAddress = "";// vaObj.Address.ToString();
+        SalesPhone="";
+        DelMode="";
+        txtTRN = "";//vaObj.TRNNo.ToString();
+        Remarks="";
+        @if(vaObj.Field3.ToString()=="Cash")
+        {
+            Cash=ObVoucher.SubTotal.ToString();
+            Card="";
+            Cheque="";
+        }
+        else
+        {
+            Cash="";
+            Card="";
+            Cheque="";
+        }
+        TotPaid=vaObj.AmountPaid.ToString();
+        SubTot=ObVoucher.Amount.ToString();
+        Discount=vaObj.Discount.ToString();
+        txtVAT=ObVoucher.VATAmt.ToString();
+        Roundoff=ObVoucher.VRound.ToString();
+        NetAmt=ObVoucher.SubTotal.ToString();
     }
 
     public async Task New_Click()
     {
+        string iDate = DateTime.Now.ToString("dd-MM-yyyy");
+        vNo = await taxServ.GetNextNoAsync(vtype, iDate, 31);
         btnVoucher = 1;
         InvoiceNumber();
-        int vtype = await Http.GetFromJsonAsync<int>("/api/Values/Sales%20POS");
+        //int vtype = await Http.GetFromJsonAsync<int>("/api/Values/Sales%20POS");
     }
     void Close_Click(MouseEventArgs args)
     {
@@ -841,21 +881,58 @@ else
 
     public void Send_Click()
     {
-        SalesOrd.Qty = DecimalValue.ToString();
+        decimal Net, VatAmt, Discount;
+
+        SalesOrd.Qty = Qty.ToString();
         SalesOrd.ItemCode = ItemMast.ItemCode;
         SalesOrd.Description = ItemMast.ItemName;
         SalesOrd.Rate = Convert.ToDecimal(ItemMast.SellingPrice);
+
         dtInvTransactions obj = new dtInvTransactions();
+        obj.ItemID = ItemMast.ID;
+        obj.VID = 0;
         obj.ItemCode = SalesOrd.ItemCode;
+        obj.ItemName = SalesOrd.Description;
         obj.Description = SalesOrd.Description;
+        obj.Unit = ItemMast.Unit;
+        obj.Discount = 0;
+        obj.Factor = ItemMast.Factor;
+        obj.IsComplex = ItemMast.IsComplex;
         obj.Qty = SalesOrd.Qty;
         obj.Rate = SalesOrd.Rate;
         obj.VATPer = Convert.ToDecimal(ItemMast.VATPer);
         obj.VRate = Convert.ToDecimal(Price);
-        obj.Discount = SalesOrd.Discount;
-        obj.Amount = Convert.ToDecimal(amount);
+        obj.BasicQty = Convert.ToDecimal(SalesOrd.Qty) * ItemMast.Factor;
+        obj.CrAccountID = ItemMast.InvAccountID;
+        obj.DrAccountID = ItemMast.CostAccountID;
+        obj.PostAccountID = ItemMast.SalesAccountID;
+        //obj.Discount = SalesOrd.Discount;
+        //obj.Amount = Convert.ToDecimal(amount);
         //obj.SubTotal = SalesOrd.SubTotal;
+        Net = 0;
+        VatAmt = 0;
+        Discount = 0;
+        if (Value3 == "Inclusive")
+        {
+            VatAmt = (Convert.ToDecimal(obj.VRate) - Convert.ToDecimal(obj.Discount)) * Convert.ToDecimal(obj.VATPer) / (100 + Convert.ToDecimal(obj.VATPer));
+            obj.VAT = VatAmt * obj.VATPer;
+            obj.Rate = obj.VRate - VatAmt;
+            obj.Amount = Convert.ToDecimal(obj.Qty) * obj.Rate;
+            obj.TAmt = Convert.ToDecimal(obj.Amount) - Convert.ToDecimal(obj.BasicQty) * obj.Discount + obj.VAT;
+            obj.NetAmount = Convert.ToDecimal(obj.Amount) - Convert.ToDecimal(obj.BasicQty) * obj.Discount + obj.VAT;
+        }
+        else
+        {
+            obj.Rate = obj.VRate;
+            Net = Convert.ToDecimal(obj.VRate) - Convert.ToDecimal(obj.Discount);
+            VatAmt = Net * Convert.ToDecimal(obj.Qty) * Convert.ToDecimal(obj.VATPer) / 100;
+            obj.VAT = VatAmt;
+            obj.Amount = Convert.ToDecimal(obj.Qty) * obj.Rate;
+            obj.TAmt = Convert.ToDecimal(obj.Amount) - Convert.ToDecimal(obj.BasicQty) * obj.Discount + obj.VAT;
+            obj.NetAmount = Convert.ToDecimal(obj.Amount) - Convert.ToDecimal(obj.BasicQty) * obj.Discount + obj.VAT;
+        }
         objsales.Add(obj);
+      
     }
 
     int MoreClick;

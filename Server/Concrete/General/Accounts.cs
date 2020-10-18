@@ -23,6 +23,11 @@ namespace OrisonFinance.Server.Concrete.Inventory
             this._dapperManager = dapperManager;
         }
 
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<List<LoginModel>> LoginUserNew(string UserName,string Password)
         {
             var dbPara = new DynamicParameters();
@@ -33,5 +38,9 @@ namespace OrisonFinance.Server.Concrete.Inventory
             return await Accounts;
         }
 
+        Task<IEnumerable<LoginModel>> IAccounts.LoginUserNew(string Username, string Password)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

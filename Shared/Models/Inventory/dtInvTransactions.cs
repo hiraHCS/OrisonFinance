@@ -60,5 +60,7 @@ namespace OrisonFinance.Shared.DataModel.Inventory
         public string VATPurpose { get; set; }
         public decimal? VATPerItem { get; set; }
         public decimal? Profit { get; set; }
+        public decimal? NetAmount { get; set; }
+        public decimal? TAmt { get; set; }
     }
 }

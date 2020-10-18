@@ -33,27 +33,40 @@ namespace Orison.Server.Controllers
         //    _context = context;
         //}
 
-        // GET: api/VoucherMasters
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<VoucherMaster>>> GetVoucherMaster()
+        // GET: api/VoucherMasters?vtype=75
+        [HttpGet()]
+        public async Task<ActionResult<IEnumerable<VoucherMaster>>> GetVoucherMaster(int vtype)
         {
-            return (await _repository.ListAll());
+            //return (await _repository.ListAll(vtype));
+            return await _repository.ListAll(vtype);
             //return await _context.VoucherMaster.ToListAsync();
         }
 
         // GET: api/VoucherMasters/5
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<VoucherMaster>> GetVoucherMasterAll(long id)
+        //{
+        //    var voucherMaster = await _context.VoucherMaster.FindAsync(id);
+
+        //    if (voucherMaster == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return voucherMaster;
+        //}
         [HttpGet("{id}")]
-        public async Task<ActionResult<VoucherMaster>> GetVoucherMaster(long id)
+        public async Task<ActionResult<VoucherMaster>> GetVoucherMaster1(int id)
         {
-            var voucherMaster = await _context.VoucherMaster.FindAsync(id);
+            var voucherMaster = await _repository.ListAll(id);
 
             if (voucherMaster == null)
             {
                 return NotFound();
             }
 
-            return voucherMaster;
-        }
+            return voucherMaster.FirstOrDefault();
+    }
 
         // PUT: api/VoucherMasters/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for

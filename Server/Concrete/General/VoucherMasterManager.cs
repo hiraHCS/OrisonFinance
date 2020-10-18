@@ -25,11 +25,11 @@ namespace OrisonFinance.Server.Concrete
             throw new NotImplementedException();
         }
 
-        public async Task<List<VoucherMaster>> ListAll()
+        public async Task<List<VoucherMaster>> ListAll(int vtype)
         //(int skip, int take, string orderBy, string direction = "DESC", string search = "")
         {
             var dbPara = new DynamicParameters();
-            dbPara.Add("VType", 5, DbType.Int32);
+            dbPara.Add("VType", vtype, DbType.Int32);
             dbPara.Add("BranchId", 31, DbType.Int32);
             dbPara.Add("Criteria", "VoucherMaster", DbType.String);
             var vouchermaster = Task.FromResult(_dapperManager.GetAll<VoucherMaster>
