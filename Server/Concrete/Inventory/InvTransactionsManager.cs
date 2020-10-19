@@ -24,7 +24,29 @@ namespace OrisonFinance.Server.Concrete.Inventory
             throw new NotImplementedException();
         }
 
-        
+        //public Task<int> Create(dtInvTransactions sale)
+        //{
+        //    var dbPara = new DynamicParameters();
+        //    dbPara.Add("ItemCode", sale.ItemCode, DbType.String);
+        //    dbPara.Add("Qty", sale.Qty, DbType.String);
+        //    dbPara.Add("Unit", sale.Unit, DbType.String);
+        //    dbPara.Add("VAT", sale.VAT, DbType.String);
+        //    dbPara.Add("Rate", sale.Rate, DbType.String);
+        //    dbPara.Add("VRate", sale.VRate, DbType.String);
+        //    dbPara.Add("Description", sale.Description, DbType.String);
+        //    dbPara.Add("Amount", sale.Amount, DbType.String);
+        //    dbPara.Add("SubTotal", sale.SubTotal, DbType.String);
+        //    dbPara.Add("Discount", sale.Discount, DbType.String);
+        //    var saleId = Task.FromResult(_dapperManager.Insert<int>("[dbo].[SPVoucher]",
+        //                    dbPara,
+        //                    commandType: CommandType.StoredProcedure));
+        //    return saleId;
+        //}
+
+        //public async Task<List<dtInvTransactions>> PutdtInvTransactions(long id, dtInvTransactions dtInvTransactions)
+        //{
+
+        //}
 
         public async Task<List<dtInvTransactions>> GetTransactions(long vid)
         {
