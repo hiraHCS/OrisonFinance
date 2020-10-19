@@ -11,8 +11,8 @@ namespace OrisonFinance.Shared.Contract.Inventory
     {
         //public  Task<dtInvVoucher> GetVoucher(long id);
         public  Task<dtInvVoucher> GetVoucher(long VId);
-       
-
+        public Task<dtInvVoucher> CreateVoucher(dtInvVoucher InvVoucher);
+        //public Task<List<dtInvVoucher>> CreateVoucher(List<dtInvVoucher> InvVoucher);
 
     }
 }

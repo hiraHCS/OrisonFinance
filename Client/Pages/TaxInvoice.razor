@@ -12,6 +12,7 @@
 @inject NavigationManager uriHelper
 @inject OrisonFinance.Client.Services.FunctionService funcService
 @inject OrisonFinance.Client.Services.TaxInvoiceService taxServ
+@inject OrisonFinance.Shared.Contract.Inventory.IInvVoucherManager VoucherMan
 <style>
     .dx-datagrid-headers .dx-header-row {
         background-color: #014164;
@@ -874,8 +875,59 @@ else
     {
         btnVoucher = 0;
     }
-    public void Save_Click()
+    long VId;
+    public async Task Save_Click()
     {
+
+        List<dtInvVoucher> objVoucher = new List<dtInvVoucher>();
+        dtInvVoucher objV = new dtInvVoucher();
+        objV.VNo = InvNo;
+        objV.VNoInt = Convert.ToInt32(InvNo);
+        objV.EffectiveDate = DateTime.Today;
+        objV.VDate = DateTime.Today;
+        objV.DueDate = DateTime.Today;
+        objV.CreatedDate = DateTime.Today;
+        objV.ModifiedDate = DateTime.Today;
+        objV.StaffName = ObAccount.AccountName;
+        objV.VType = vtype;
+        objV.BranchID = 31;
+        objV.AccountID = ObAccount.ID;
+        objV.VATAmt =null;
+        objV.VATPaid =null;
+        objV.VRound = null;
+        objV.SubTotal = null;
+        objV.IsCanceled = null;
+        objV.CreatedUserID = null;
+        objV.ModifiedUserID = null;
+        objV.ExchangeRate = null;
+        objV.Currency = 1;
+        objVoucher.Add(objV);
+        //VId=await VoucherMan.CreateVoucher(objVoucher);
+
+        List<dtInvVoucherAdditionals> objVoucherAdd = new List<dtInvVoucherAdditionals>();
+        dtInvVoucherAdditionals objVAdd = new dtInvVoucherAdditionals();
+        objVAdd.VID = VId;
+        objVAdd.PartyName = "";
+        objVAdd.Address = "";
+        objVAdd.Tel = "";
+        objVAdd.Field3 = "";
+        objVAdd.Field8 = "";
+        objVAdd.AmountPaid = null;
+        objVAdd.Discount = null;
+        objVAdd.TRNNo = null;
+        objVoucherAdd.Add(objVAdd);
+
+
+        List<dtInvVoucherEntry> objVoucherEntry = new List<dtInvVoucherEntry>();
+        dtInvVoucherEntry objVEntry = new dtInvVoucherEntry();
+        objVEntry.VID = VId;
+        objVEntry.TranType = "";
+        objVoucherEntry.Add(objVEntry);
+
+
+        dtInvTransactions objTransaction = new dtInvTransactions();
+        objsales.Add(objTransaction);
+
 
     }
 
@@ -932,7 +984,7 @@ else
             obj.NetAmount = Convert.ToDecimal(obj.Amount) - Convert.ToDecimal(obj.BasicQty) * obj.Discount + obj.VAT;
         }
         objsales.Add(obj);
-      
+
     }
 
     int MoreClick;
