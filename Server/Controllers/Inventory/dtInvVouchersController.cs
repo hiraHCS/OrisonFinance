@@ -98,7 +98,14 @@ namespace OrisonFinance.Server.Controllers
 
             return CreatedAtAction("GetdtInvVoucher", new { id = dtInvVoucher.ID }, dtInvVoucher);
         }
+        [HttpPost]
+        public async Task<ActionResult<dtInvVoucher>> CreateVoucher(dtInvVoucher dtInvVoucher)
+        {
+            _context.dtInvVoucher.Add(dtInvVoucher);
+            await _context.SaveChangesAsync();
 
+            return CreatedAtAction("GetdtInvVoucher", new { id = dtInvVoucher.ID }, dtInvVoucher);
+        }
         // DELETE: api/dtInvVouchers/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<dtInvVoucher>> DeletedtInvVoucher(long id)

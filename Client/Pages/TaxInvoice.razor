@@ -12,7 +12,7 @@
 @inject NavigationManager uriHelper
 @inject OrisonFinance.Client.Services.FunctionService funcService
 @inject OrisonFinance.Client.Services.TaxInvoiceService taxServ
-@inject OrisonFinance.Shared.Contract.Inventory.IInvVoucherManager VoucherMan
+@*@inject OrisonFinance.Shared.Contract.Inventory.IInvVoucherManager VoucherMan*@
 <style>
     .dx-datagrid-headers .dx-header-row {
         background-color: #014164;
@@ -333,6 +333,7 @@
                         </div>
                         <div class="col-md-8">
                             <DxTextBox NullText="Cash" Id="txtCash" CssClass="widthset"></DxTextBox>
+                            
                         </div>
                     </div>
                     <div class="col-md-4 form-row">
@@ -772,7 +773,7 @@ else
     public static dtInvAccounts[] CustomerList;
     dtInvAccounts ObCustomer = new dtInvAccounts();
 
-    dtInvVoucher[] VoucherList;
+    public static dtInvVoucher[] VoucherList;
     dtInvVoucher ObVoucher = new dtInvVoucher();
 
     VoucherMaster[] VoucherMasterList;
@@ -876,57 +877,60 @@ else
         btnVoucher = 0;
     }
     long VId;
-    public async Task Save_Click()
+    public void Save_Click()
     {
 
-        List<dtInvVoucher> objVoucher = new List<dtInvVoucher>();
-        dtInvVoucher objV = new dtInvVoucher();
-        objV.VNo = InvNo;
-        objV.VNoInt = Convert.ToInt32(InvNo);
-        objV.EffectiveDate = DateTime.Today;
-        objV.VDate = DateTime.Today;
-        objV.DueDate = DateTime.Today;
-        objV.CreatedDate = DateTime.Today;
-        objV.ModifiedDate = DateTime.Today;
-        objV.StaffName = ObAccount.AccountName;
-        objV.VType = vtype;
-        objV.BranchID = 31;
-        objV.AccountID = ObAccount.ID;
-        objV.VATAmt =null;
-        objV.VATPaid =null;
-        objV.VRound = null;
-        objV.SubTotal = null;
-        objV.IsCanceled = null;
-        objV.CreatedUserID = null;
-        objV.ModifiedUserID = null;
-        objV.ExchangeRate = null;
-        objV.Currency = 1;
-        objVoucher.Add(objV);
-        //VId=await VoucherMan.CreateVoucher(objVoucher);
-
-        List<dtInvVoucherAdditionals> objVoucherAdd = new List<dtInvVoucherAdditionals>();
-        dtInvVoucherAdditionals objVAdd = new dtInvVoucherAdditionals();
-        objVAdd.VID = VId;
-        objVAdd.PartyName = "";
-        objVAdd.Address = "";
-        objVAdd.Tel = "";
-        objVAdd.Field3 = "";
-        objVAdd.Field8 = "";
-        objVAdd.AmountPaid = null;
-        objVAdd.Discount = null;
-        objVAdd.TRNNo = null;
-        objVoucherAdd.Add(objVAdd);
+        ////await Http.PostAsJsonAsync("/api/dtInvVouchers?Vid="+vID, invVObj);
+        ////invV = await Http.GetFromJsonAsync<dtInvVoucher[]>("/api/dtInvVouchers?Vid="+vID);
+        ////uriHelper.NavigateTo("TaxInvoice");
+        //dtInvVoucher objVoucher = new dtInvVoucher();
+        //objVoucher.VNo = InvNo;
+        //objVoucher.VNoInt = Convert.ToInt32(InvNo);
+        //objVoucher.EffectiveDate = DateTime.Today;
+        //objVoucher.VDate = DateTime.Today;
+        //objVoucher.DueDate = DateTime.Today;
+        //objVoucher.CreatedDate = DateTime.Today;
+        //objVoucher.ModifiedDate = DateTime.Today;
+        //objVoucher.StaffName = ObAccount.AccountName;
+        //objVoucher.VType = vtype;
+        //objVoucher.BranchID = 31;
+        //objVoucher.AccountID = ObAccount.ID;
+        //objVoucher.VATAmt = null;
+        //objVoucher.VATPaid = null;
+        //objVoucher.VRound = null;
+        //objVoucher.SubTotal = null;
+        //objVoucher.IsCanceled = null;
+        //objVoucher.CreatedUserID = null;
+        //objVoucher.ModifiedUserID = null;
+        //objVoucher.ExchangeRate = null;
+        //objVoucher.Currency = 1;
+        ////var data = await VoucherMan.CreateVoucher(objVoucher);
 
 
-        List<dtInvVoucherEntry> objVoucherEntry = new List<dtInvVoucherEntry>();
-        dtInvVoucherEntry objVEntry = new dtInvVoucherEntry();
-        objVEntry.VID = VId;
-        objVEntry.TranType = "";
-        objVoucherEntry.Add(objVEntry);
+
+        //List<dtInvVoucherAdditionals> objVoucherAdd = new List<dtInvVoucherAdditionals>();
+        //dtInvVoucherAdditionals objVAdd = new dtInvVoucherAdditionals();
+        //objVAdd.VID = VId;
+        //objVAdd.PartyName = "";
+        //objVAdd.Address = "";
+        //objVAdd.Tel = "";
+        //objVAdd.Field3 = "";
+        //objVAdd.Field8 = "";
+        //objVAdd.AmountPaid = null;
+        //objVAdd.Discount = null;
+        //objVAdd.TRNNo = null;
+        //objVoucherAdd.Add(objVAdd);
 
 
-        dtInvTransactions objTransaction = new dtInvTransactions();
-        objsales.Add(objTransaction);
+        //List<dtInvVoucherEntry> objVoucherEntry = new List<dtInvVoucherEntry>();
+        //dtInvVoucherEntry objVEntry = new dtInvVoucherEntry();
+        //objVEntry.VID = VId;
+        //objVEntry.TranType = "";
+        //objVoucherEntry.Add(objVEntry);
+
+
+        //dtInvTransactions objTransaction = new dtInvTransactions();
+        //objsales.Add(objTransaction);
 
 
     }
